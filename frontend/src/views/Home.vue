@@ -4,9 +4,7 @@
       <div class="level-left">
         <div class="level-item has-text-centered">
           <navigation-link :to="encrypt">
-            <template #col1>
-              <i class="fas fa-arrow-circle-left"></i>
-            </template>
+            <template #col />
             <template #col2>
               <span>Encrypt</span>
             </template>
@@ -29,15 +27,11 @@
         <div class="level-item has-text-centered">
           <navigation-link :to="decrypt">
             <template #col1>
-              <div class="column">
-                <span>Decrypt</span>
-              </div>
+              <span>Decrypt</span>
             </template>
             <template #col2>
             <div class="column">
-              <span class="icon">
-                <i class="fas fa-arrow-circle-right"></i>
-              </span>
+              <i class="fas fa-arrow-circle-right"></i>
             </div>
             </template>
           </navigation-link>

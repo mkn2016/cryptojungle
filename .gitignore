@@ -1,0 +1,69 @@
+# Node Modules
+node_modules
+build
+
+
+# Logs & Log Files
+npm-debug.log
+
+
+# DS Stores
+.DS_Store
+
+
+# Environments
+.env
+env/
+
+# Cache
+__pycache__
+__idea__
+
+
+# Distribution/Packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Sphinx Documentation
+docs/_build/
+
+# Visual Studio Code
+.vscode
+
+# pdf
+*.pdf
