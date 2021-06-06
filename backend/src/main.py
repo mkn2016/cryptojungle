@@ -136,7 +136,7 @@ async def decrypt(file: UploadFile = File(...), password: str = Form(...)):
     file_name = f"{file.filename}"
 
     step_1, step_2, step_3, step_4, step_5, step_6, step_7  = [False for _ in range(7)]
-    file_to_encrypt = ""
+    file_to_decrypt = ""
     decrypted_file_name = ""
     response = None
 
@@ -162,7 +162,7 @@ async def decrypt(file: UploadFile = File(...), password: str = Form(...)):
         return JSONResponse(status_code=500, content={"message": "Server Error Occured: Could not move file to new file location"})
     else:
         try:
-            file_to_encrypt = str(sorted(Path(directory_path).glob(file_name))[0])
+            file_to_decrypt = str(sorted(Path(directory_path).glob(file_name))[0])
         except:
             step_3 = False
         else:
@@ -171,9 +171,9 @@ async def decrypt(file: UploadFile = File(...), password: str = Form(...)):
     if not step_3:
         return JSONResponse(status_code=500, content={"message": "Server Error Occured: Could not find file matching the file name on disk"})
     else:
-        d = Decrypt(file_to_encrypt, password)
+        d = Decrypt(file_to_decrypt, password)
         try:
-            print(file_to_encrypt)
+            print(file_to_decrypt)
             d.decrypt()
         except:
             step_4 = False
@@ -181,10 +181,10 @@ async def decrypt(file: UploadFile = File(...), password: str = Form(...)):
             step_4 = True
         
     if not step_4:
-        remove(file_to_encrypt)
-        return JSONResponse(status_code=403, content={"message": "File decryption failed. Wrong Password."})
+        remove(file_to_decrypt)
+        return JSONResponse(content={"message": "File decryption failed. Wrong Password."}, status_code=403)
     else:
-        remove(file_to_encrypt)
+        remove(file_to_decrypt)
         file_name_pattern = file_name.replace(".enc", ".pdf")
         print(sorted(Path(directory_path).glob(file_name_pattern)))
         try:

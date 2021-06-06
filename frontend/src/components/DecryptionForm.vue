@@ -101,7 +101,7 @@ export default {
             document.body.appendChild(fileLink)
 
             fileLink.click()
-            
+
             Vue.$toast.open(
                 "Successfully uploaded file for download." + " \nRedirecting you back to home page. ",
                 {
@@ -112,16 +112,16 @@ export default {
                 this.$router.push("/")
             }, 3000)
         })
-        .catch(err => {
-            console.log(err.errors)
+        .catch((err) => {
+            console.log(err.status)
             Vue.$toast.error(
                 err.message + " \nRedirecting you back to home page. " + "Try Again",
                 {
                     position: "top"
                 }
             )
-            setTimeout(() => {
-               this.$router.push("/")
+                setTimeout(() => {
+                this.$router.push("/")
             }, 4000)
             
         })
