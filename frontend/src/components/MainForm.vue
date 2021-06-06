@@ -1,5 +1,5 @@
 <template>
-    <form class="box control rows" ref="form" @submit.prevent="onSubmit">
+    <form action="/encrypt" class="box control rows" ref="form" @submit.prevent="onSubmit" enctype="multipart/form-data">
         <div class="row field">
             <div class="control is-expanded">
             <div class="file is-right is-info is-fullwidth">
@@ -38,6 +38,7 @@
 
 <script>
 import Vue from 'vue'
+const axios = require('axios');
 
 export default {
   data () {
@@ -74,9 +75,53 @@ export default {
           {
             position: "top-right"
           }
-        );
+        )
+        
+        let formData = new FormData()
+        formData.append("file", file)
+        formData.append("password", this.password)
+
+        axios({
+          method: "post",
+          url: "http://localhost:8002/encrypt",
+          headers: {
+            "Content-Type": "multipart/form-data"
+          },
+          data: formData,
+          responseType: "blob"
+        })
+        .then(res => {
+          var fileUrl = window.URL.createObjectURL(new Blob([res.data]))
+          var fileLink = document.createElement("a");
+
+          fileLink.href = fileUrl;
+          fileLink.setAttribute("download", "file.enc");
+          document.body.appendChild(fileLink);
+
+          fileLink.click();
+          setTimeout(() => {
+            Vue.$toast.open(
+              "Successfully uploaded file for download." + " \nRedirecting you back to home page. ",
+              {
+                position: "top-right"
+              }
+            )
+          }, 3000)
+          this.$router.push("/")
+        })
+        .catch(err => {
+          setTimeout(() => {
+            Vue.$toast.error(
+              err.message + " \nRedirecting you back to home page. " + "Try Again",
+              {
+                position: "top-right"
+              }
+            )
+          }, 3000)
+          this.$router.push("/")
+        })
       }
     }
   }
-}
+  }
 </script>

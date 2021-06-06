@@ -30,9 +30,7 @@
               <span>Decrypt</span>
             </template>
             <template #col2>
-            <div class="column">
               <i class="fas fa-arrow-circle-right"></i>
-            </div>
             </template>
           </navigation-link>
         </div>
