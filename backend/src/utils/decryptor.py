@@ -10,30 +10,27 @@ class Decrypt(object):
         self.password = password.encode("utf-8")
         self.block_size = block_size
     
-    def decode_with_b64(self, to_be_encoded):
-        return b64decode(to_be_encoded).decode("utf-8")
-    
     def to_be_padded(self, data):
         return pad(data, self.block_size)
     
-    def generate_cipher_from_key(self, key):
-        return new(key, MODE_CFB)
+    def to_be_unpadded(self, data):
+        return unpad(data, self.block_size)
     
-    def encrypt(self):
+    def generate_cipher_with_key_and_iv(self, key, iv):
+        return new(key, MODE_CFB, iv)
+    
+    def decrypt(self):
         key = self.to_be_padded(self.password)
-        cipher = self.generate_cipher_from_key(key)
 
-        with open(self.filename, 'rb') as file:
+        with open(self.filename, "r") as file:
             data = file.read()
-            data = self.to_be_padded(data)
-            cipher_text = cipher.encrypt(data)
-            iv = self.encode_with_b64(cipher.iv)
-            cipher_text = self.encode_with_b64(cipher_text)
-            write_to_file = iv + cipher_text
-            with open(sub(".txt", "", self.filename) + ".enc", "w") as data:
-                data.write(write_to_file)
-
-if __name__ == "__main__":
-    e  = Decrypt("/home/platoschild/Projects/CryptoJungle/backend/test.enc", "martin")
-    e.encrypt()
-
+            length = len(data)
+            iv = data[:24]
+            iv = b64decode(iv)
+            cipher_text = data[24:length]
+            cipher_text = b64decode(cipher_text)
+            cipher = self.generate_cipher_with_key_and_iv(key, iv)
+            decrypted = cipher.decrypt(cipher_text)
+            decrypted = self.to_be_unpadded(decrypted)
+            with open(sub(".enc", "", self.filename) + ".pdf", "wb") as data:
+                data.write(decrypted)

@@ -30,7 +30,7 @@
         </div>
         <div class="row field">
             <div class="control is-expanded">
-            <button class="button is-info is-fullwidth" type="submit">Encrypt</button>
+            <button class="button is-info is-fullwidth" type="submit">Decrypt</button>
             </div>
         </div>
     </form>
@@ -56,6 +56,8 @@ export default {
     },
     onSubmit() {
       const file = this.$refs.file.files[0]
+      console.log(file.name)
+      let fileExtension = file.name.split('.').pop();
 
       if (!file) {
         this.$emit('showModal', "No file has been chosen")
@@ -63,8 +65,8 @@ export default {
       } else if (file.size > 1024 * 1024) {
         this.$emit('showModal', "File too big (> 1MB)")
         return;
-      } else if (file.type !== "application/pdf") {
-        this.$emit('showModal', "File must be of type (pdf)")
+      } else if (fileExtension !== "enc") {
+        this.$emit('showModal', "File must be of type extension (.enc)")
         return;
       } else if (!this.password) {
         this.$emit('showModal', "Password or Passphrase is required")
@@ -83,7 +85,7 @@ export default {
 
         axios({
           method: "post",
-          url: "http://localhost:8002/encrypt",
+          url: "http://localhost:8002/decrypt",
           headers: {
             "Content-Type": "multipart/form-data"
           },
@@ -91,37 +93,40 @@ export default {
           responseType: "blob"
         })
         .then(res => {
-          var fileUrl = window.URL.createObjectURL(new Blob([res.data]))
-          var fileLink = document.createElement("a")
+            var fileUrl = window.URL.createObjectURL(new Blob([res.data]))
+            var fileLink = document.createElement("a")
 
-          fileLink.href = fileUrl;
-          fileLink.setAttribute("download", "file.enc")
-          document.body.appendChild(fileLink)
+            fileLink.href = fileUrl;
+            fileLink.setAttribute("download", "file.pdf")
+            document.body.appendChild(fileLink)
 
-          fileLink.click()
-          Vue.$toast.open(
-            "Successfully uploaded file for download." + " \nRedirecting you back to home page. ",
-            {
-            position: "top"
-            }
-          )
-          setTimeout(() => {
-            this.$router.push("/")
-          }, 3000)
+            fileLink.click()
+            
+            Vue.$toast.open(
+                "Successfully uploaded file for download." + " \nRedirecting you back to home page. ",
+                {
+                position: "top"
+                }
+            )
+            setTimeout(() => {
+                this.$router.push("/")
+            }, 3000)
         })
         .catch(err => {
-          Vue.$toast.error(
-            err.message + " \nRedirecting you back to home page. " + "Try Again",
-            {
-              position: "top"
-            }
-          )
-          setTimeout(() => {
-            this.$router.push("/")
-          }, 4000)
+            console.log(err.errors)
+            Vue.$toast.error(
+                err.message + " \nRedirecting you back to home page. " + "Try Again",
+                {
+                    position: "top"
+                }
+            )
+            setTimeout(() => {
+               this.$router.push("/")
+            }, 4000)
+            
         })
       }
     }
   }
-}
+  }
 </script>

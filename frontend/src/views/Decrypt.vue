@@ -18,7 +18,7 @@
           <sub-title-heading>
             Lets Start Decypting...Upload A File To Get Started.
           </sub-title-heading>
-        <main-form @showModal="showModal($event)"/>
+        <decryption-form @showModal="showModal($event)"/>
         </div>
       </div>
     </section>
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import MainForm from '../components/MainForm.vue'
+import DecryptionForm from '../components/DecryptionForm.vue'
 import SubTitleHeading from '../components/SubTitleHeading.vue'
 import NavigationLink from '../components/NavigationLink.vue'
 
@@ -38,7 +38,7 @@ export default {
     }
   },
   components: {
-    MainForm,
+    DecryptionForm,
     NavigationLink,
     SubTitleHeading
   },
