@@ -1,6 +1,6 @@
 # Crypto Jungle File Encryption and Decryption
 
-## FastAPI, Vue, Vuex, VueRouter
+## Built with FastAPI, Vue, Vuex, VueRouter, Bulma Css
 
 ### ToDos
 - [ ] Docker for deployment
