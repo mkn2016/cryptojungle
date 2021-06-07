@@ -2,7 +2,7 @@
 
 ## FastAPI, Vue, Vuex, VueRouter
 
-*---ToDos---*
-[ ] Docker for deployment
-[ ] Vuex
-[ ] Componentize Sweet Modal Alerts slotProps
+### ToDos
+- [ ] Docker for deployment
+- [ ] State Management using Vuex
+- [ ] Componentize Sweet Modal Alerts using slotProps
