@@ -2,4 +2,7 @@
 
 ## FastAPI, Vue, Vuex, VueRouter
 
-### We shall use docker to install
+*---ToDos---*
+[ ] Docker for deployment
+[ ] Vuex
+[ ] Componentize Sweet Modal Alerts slotProps
